@@ -1,0 +1,67 @@
+Version 3.3.1 (for VaultIC 4xx)
+-> improve compabibility with raspberry pi4
+-> fix regression in SPI introduced in 3.3.0 (random comm errors)
+-> fix reset control issue (STM32 only)
+
+Version 3.3.0 (for VaultIC 4xx)
+-> fix issue when using AES keywrapping with SCP03
+-> remove clock stretch disabling on raspberry (no more required with new i2c-bcm2835 driver)
+-> fix block protocol startup issue in case of comm errors
+-> fix issue on raspberry pi 4 (I2C speed was not changed)
+-> upgrade windows projects to VS2022
+-> add support of legacy mode in Set Config of Vic408
+-> rename VLT_SET_CFG_AARDVARK_TIMEOUT to VLT_SET_CFG_USE_SHORT_TWI_TIMEOUT
+-> fix issue when using KeyWrapping in P25 without padding
+-> improve Generate Assurance Message (compare signer id internally instead of returning it and rely on host to do it)
+-> fix some structures and enumerations missing VLT_ prefix
+-> fix some functions missing const for pointer parameters
+-> optimize spi settings (reduce internal delays)
+-> add missing I2C start byte when using wiseboard
+-> check rsa component lengths are multiple of 4
+-> remove deprecated features
+-> review gpio management on raspberry (use gpio ABI on Linux instead of deprecated sysfs)
+-> remove I2C driver reset on raspberry (requires modified board for a proprer VCC off)
+-> add new method VltControlUninit() to unconfigure GPIOs used for power and reset control
+-> add new VltTimerxx() methods, used for managing comm timeouts properly
+-> use BLK_PTCL_CHECKSUM_SUM8 by default
+-> optimize start time
+-> reduce power off delay from 500 to 100ms
+-> reduce polling time from 100 to 10ms (i2c raspberry)
+-> reactivate VLT_ALG_KDF_HASH_MODE
+-> improve AES key wrapping demo with more key types
+-> add new VaultIC408 specific features
+    -> reduced start up delay
+    -> SetFipsAlgo
+    -> SetFipsLevel
+    -> SecurePassword
+    -> GenerateSymmetricKey
+    -> KTS AES (remove CRC)
+    -> KTS AES P25
+    -> KTS AES NIST SP800
+    -> Extended Get Info
+-> cleanup
+    -> disable DSA by default
+    -> remove old code related to MQTT and BLE
+    -> remove display lib information
+
+Version 3.2.2  (for VaultIC 4xx)
+-> fix init errors on raspberry when using I2C
+
+Version 3.2.1  (for VaultIC 4xx)
+-> add support of raspberry and esp32 
+-> add new definition entries in VaultIC_product.h to reduce code size when some features are not used
+-> fix error when calling VltApiClose several times
+-> remove warning when host crypto not used
+-> fix key derivation issue (ARM only)
+-> improve code robustness (parameters check)
+-> fix issue when using keywrapping to read RSA keys 
+-> fix issue when using vltDeriveKey with KDF X963
+-> fix issue when using vltPutKey with DSA private keys
+   
+Version 3.2.0 (for VaultIC 4xx)
+-> 1st release for Vic405 demo kit
+
+
+
+
+

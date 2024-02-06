@@ -1,0 +1,21 @@
+-------------------------------------------------------------------------
+ Author              :  WISeKey Semiconductors
+ Date                :  18 Aug 2023
+ Description         :  VaultIC4xx TLS RPI development kit
+ Version             :  1.3.1
+-------------------------------------------------------------------------
+
+
+History
+-------
+Version   Description
+          
+1.3.1     Fix issue with wolfssl when signature components are smaller than 256 bits (VerifySignature failed with 6982)
+          Extend log level mechanism to perso apps
+
+1.3.0     Use cmake in all projects
+          Upgrade to mbedtls v3.4.1
+          Upgrade to wolfssl v5.6.3
+          Fix comm errors on raspberry pi4
+          
+

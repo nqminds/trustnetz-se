@@ -1,0 +1,104 @@
+--------------------------------------------------------------------------------
+INSTRUCTIONS for installing WolfSSL/MbedTLS + VaultIC 4xx TLS on Raspberry Pi
+--------------------------------------------------------------------------------
+
+We recommend you first to take a look at the Getting Started document 
+TPR0692x_GettingStartedWithVaultIC4xxTLS_Raspberry.pdf
+
+Wolf SSL tested with the following configuration:
+- WolfSSL v5.6.3   https://github.com/wolfSSL/wolfssl/tree/v5.3.0-stable
+- WolfMQTT v1.16.0 https://github.com/wolfSSL/wolfMQTT/tree/v1.13.0
+
+Mbed-TLS/mbedtls tested with the following configuration:
+- mbedTLS v3.4.1   https://github.com/Mbed-TLS/mbedtls/tree/v3.4.1
+- MQTT-C  v1.1.6   https://github.com/LiamBindle/MQTT-C/tree/v1.1.6
+
+Prerequisite:
+- Raspberry Pi3 or Pi4 with raspbian bullseye
+
+*** WARNING: in previous raspian versions (including buster) there was an issue in I2C 
+    due to clock stretch timeout limitation of 35ms of bcm2835 
+    In this case either upgrade to bullseye (recommended) or simply upgrade your drivers 
+    this command: sudo rpi-update
+
+  To build the demonstrations you will need
+   - git and gcc (included in the raspbian distribution)
+   - cmake (not included in raspbian distribution), can be installed with these commands:
+     sudo apt update
+     sudo apt install -y cmake
+       
+--------------------------------------------------------------------------------
+ 1) Configure the TLS_VIC_4XX_SOIC_RASPBERRY BOARD
+--------------------------------------------------------------------------------
+   Before plugging the board on the Raspberry Pi connector, configure the
+   jumpers:
+   
+   - set _VCC_ jumper
+        CTRL |  VaultIC power controlled by GPIO25 (default)  
+        3V3  |  VaultIC power always on
+
+   - set J1&J2 to select I2C or SPI
+        MODE |  J1   | J2
+        ----   ----   ---- 
+        SPI  |  SS   | SEL (default) 
+        I2C  |  SCL  | SDA 
+        
+--------------------------------------------------------------------------------
+ 2) Enable I2C or SPI interface on the Raspberry Pi
+--------------------------------------------------------------------------------
+    Ensure I2C or SPI interface is enabled on your Raspberry Pi (using raspi-config for
+    example or menu "Preferences > Raspberry Pi Configuration", in 'Interfaces' tab)
+
+--------------------------------------------------------------------------------
+ 3) Tree structure of the VaultIC-TLS zip file
+--------------------------------------------------------------------------------
+  
+  If not already done, copy and uncompress the VaultICDEVKIT_VIC4xx_TLS_RPI_xxx.zip
+  file on the Raspberry Pi.
+
+  DEVKIT_VIC40x_TLS_RPI
+  ├ VaultIC-TLS
+  │  ├ certificates
+  │  ├ demos
+  │  │  ├ mbedtls
+  │  │  ├ wolfssl
+  │  │  └ config.cfg
+  │  └ vaultic_tls 
+  │     ├ vaultic_elib_40x
+  │     ├ vaultic_mbedtls
+  │     ├ vaultic_tls_4xx
+  │     └ vaultic_wolfssl
+  ├ CHANGES.TXT
+  ├ INSTALL.TXT
+  └ TPR0692x_GettingStartedWithVaultIC4xxTLS_Raspberry.pdf
+
+--------------------------------------------------------------------------------
+ 4) Run the demonstrations on the Raspberry Pi
+--------------------------------------------------------------------------------
+  Go in directory 'VaultIC-TLS\demos'.
+  
+  Edit the file config.cfg, and change the value of VAULTIC_COMM to match with the jumpers configured in step 1
+  
+  The demonstrations are available with wolfssl or mbedTLS stacks, and organised in dedicated folders.
+  
+  For each stack, several demonstrations are available:
+  - mqtt_aws: secure communication with an AWS IOT server (using VaultIC to secure the MQTT client)
+  - tls_client: secure TLS communication (using VaultIC to secure the TLS client)
+  - tls_server: secure TLS communication (using VaultIC to secure the TLS server)
+  - cert_req: certificate signing request using the VaultIC
+  
+  The README.TXT file in each demonstration subfolder explains how to run the demonstrations.
+  
+**********
+* WARNING
+**********
+mbedtls requires some specific python packages as described in the mbed documentation https://github.com/Mbed-TLS/mbedtls
+If these packages are not properly configured, some errors can occur during the build phase.
+
+A common error is the missing of required python packages which can be solved with the following operation:
+- go in the mbedtls directoty (downloaded with github) and run the following commands:
+  pip install --upgrade setuptools
+  python3 -m pip install --upgrade pip
+  python -m pip install --upgrade pip
+  python3 -m pip install --user -r scripts/basic.requirements.txt
+  
