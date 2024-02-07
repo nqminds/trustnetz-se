@@ -3,3 +3,6 @@
 
 # Ignore build client in VaultIC-TLS/tls_client
 VaultIC-TLS/wolfssl/tls_client/build_client_vaultic/
+
+
+VaultIC-TLS/vaultic_tls/vaultic_tls-4xx/apps/build/
