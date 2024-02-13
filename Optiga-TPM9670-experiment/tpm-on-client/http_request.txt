@@ -1,0 +1,2 @@
+GET /url/path HTTP/1.0
+Host: localhost
